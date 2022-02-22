@@ -4,11 +4,14 @@ import (
 	"fmt"
 )
 
+// generic Stack implmentation providing stack-like Pop/Push function
+// the fields are only accessible via the functions
 type Stack[T any] struct {
 	values   []T
 	maxDepth int
 }
 
+// Push adds a value on top of the stack and updates maxDepth (if applicable)
 func (s *Stack[T]) Push(val T) error {
 	s.values = append(s.values, val)
 	if len(s.values) > s.maxDepth {
@@ -17,6 +20,7 @@ func (s *Stack[T]) Push(val T) error {
 	return nil
 }
 
+// Pop removed and returns the top value from the Stack.
 func (s *Stack[T]) Pop() T {
 	v := s.values[len(s.values)-1:]
 	s.values = s.values[:len(s.values)-1]
@@ -33,6 +37,7 @@ func (s *Stack[T]) Depth() int {
 	return len(s.values)
 }
 
+// MaxDepth return the maximum amount of values this Stack reached
 func (s *Stack[T]) MaxDepth() int {
 	return s.maxDepth
 }
@@ -42,6 +47,7 @@ func (s *Stack[T]) IsEmpty() bool {
 	return len(s.values) == 0
 }
 
+// String output the Stack contents prefixed with an index
 func (s *Stack[T]) String() string {
 	var str string
 	for i, v := range s.values {
@@ -50,7 +56,7 @@ func (s *Stack[T]) String() string {
 	return str
 }
 
-// Content returns a copy of the slice holding the value
+// Content returns a copy of the slice holding the values
 func (s *Stack[T]) Content() []T {
 	c := make([]T, len(s.values))
 	copy(c, s.values)
